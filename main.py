@@ -6,6 +6,7 @@ import rainbowhat as rh
 from random import randint
 
 running = True
+rainbow_speed = 0.25  # The delay in seconds between repetitions of the rainbow LED sequence
 
 
 def set_running():
@@ -47,17 +48,22 @@ def scroll(scroll_text):
 
 
 def event_handler():
+    global rainbow_speed
+
     @rh.touch.A.press()
     def touch_a(channel):
         rh.lights.rgb(1, 0, 0)
+        print(str(channel) + ' ' + str(rainbow_speed))
 
     @rh.touch.B.press()
     def touch_b(channel):
         rh.lights.rgb(0, 1, 0)
+        print(str(channel) + ' ' + str(rainbow_speed))
 
     @rh.touch.C.press()
     def touch_c(channel):
         rh.lights.rgb(0, 0, 1)
+        print(str(channel) + ' ' + str(rainbow_speed))
         set_running()
 
 
@@ -121,7 +127,6 @@ try:
         thread.start_new_thread(event_handler, ())
 
         while True:
-            # blink(0.1)
             sequence_pixel_random(0.25)
 except Exception as exception:
     print(exception)
