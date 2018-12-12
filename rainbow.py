@@ -14,13 +14,13 @@ class Rainbow:
                                     #         all    (all LED on)
 
     @staticmethod
-    def clear():
+    def blank():
         # Clears the LED and displays it cleared
         rainbow.clear()
         rainbow.show()
 
     def start(self):
-        self.clear()
+        self.blank()
         try:
             if self.sequence == 'random':
                 for each in range(101):
@@ -59,7 +59,7 @@ class Rainbow:
             print "Something went wrong instantiating the type of sequence!"
 
     def stop(self):
-        self.clear()
+        self.blank()
         self.__init__()
 
 rainbow = Rainbow()
