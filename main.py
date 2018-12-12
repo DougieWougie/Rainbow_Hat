@@ -1,9 +1,10 @@
-import colorsys
 from datetime import datetime
 import thread
 import time
+
 import rainbowhat as rh
-from random import randint
+
+from rainbow import Rainbow
 
 running = True
 rainbow_speed = 0.25  # The delay in seconds between repetitions of the rainbow LED sequence
@@ -67,50 +68,6 @@ def event_handler():
         set_running()
 
 
-def sequence_all():
-    rh.rainbow.set_brightness(0.1)
-    for each in range(101):
-        r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb((each / 100.0), 1.0, 1.0)]
-        rh.rainbow.set_all(r, g, b)
-        rh.rainbow.show()
-
-
-def sequence_all_ordered(speed):
-    rh.rainbow.set_brightness(0.1)
-    pixel = 0
-    for each in range(101):
-        if pixel > 6:
-            pixel = 0
-        r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb((each / 100.0), 1.0, 1.0)]
-        rh.rainbow.set_pixel(pixel, r, g, b)
-        rh.rainbow.show()
-        time.sleep(speed)
-        pixel += 1
-
-
-def sequence_pixel(speed):
-    rh.rainbow.set_brightness(0.1)
-    pixel = 0
-    for each in range(101):
-        if pixel > 6:
-            pixel = 0
-        r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb((each / 100.0), 1.0, 1.0)]
-        rh.rainbow.set_pixel(pixel, r, g, b)
-        rh.rainbow.show()
-        time.sleep(speed)
-        pixel += 1
-
-
-def sequence_pixel_random(speed):
-    rh.rainbow.set_brightness(0.1)
-    for each in range(101):
-        r, g, b = [int(c * 255) for c in colorsys.hsv_to_rgb((each / 100.0), 1.0, 1.0)]
-        rh.rainbow.clear()
-        rh.rainbow.set_pixel((randint(0, 6)), r, g, b)
-        rh.rainbow.show()
-        time.sleep(speed)
-
-
 def temperature():
     return rh.weather.temperature()
 
@@ -121,13 +78,14 @@ def pressure():
 
 try:
     while running:
+        flashing_lights = Rainbow()
         clear()
 
         thread.start_new_thread(scroll, (text,))
         thread.start_new_thread(event_handler, ())
 
         while True:
-            sequence_pixel_random(0.25)
+            flashing_lights.start()
 except Exception as exception:
     print(exception)
 finally:

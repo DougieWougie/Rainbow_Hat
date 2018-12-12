@@ -61,6 +61,3 @@ class Rainbow:
     def stop(self):
         self.blank()
         self.__init__()
-
-rainbow = Rainbow()
-rainbow.start()
