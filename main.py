@@ -6,15 +6,6 @@ import rainbowhat as rh
 
 from rainbow import Rainbow
 
-running = True
-rainbow_speed = 0.25  # The delay in seconds between repetitions of the rainbow LED sequence
-
-
-def set_running():
-    global running
-    if running:
-        running = False
-
 
 def days(date_one, date_two):
     date_one = datetime.strptime(date_one, "%Y-%m-%d")
@@ -23,7 +14,7 @@ def days(date_one, date_two):
 
 
 text = "SLEEPS UNTIL XMAS  " + str(days(datetime.today().strftime("%Y-%m-%d"), '2018-12-25'))
-
+rainbow_speed = 0.25
 
 def clear():
     # Reset everything
@@ -65,7 +56,6 @@ def event_handler():
     def touch_c(channel):
         rh.lights.rgb(0, 0, 1)
         print(str(channel) + ' ' + str(rainbow_speed))
-        set_running()
 
 
 def temperature():
@@ -77,15 +67,14 @@ def pressure():
 
 
 try:
-    while running:
-        flashing_lights = Rainbow()
-        clear()
+    flashing_lights = Rainbow()
+    clear()
 
-        thread.start_new_thread(scroll, (text,))
-        thread.start_new_thread(event_handler, ())
+    thread.start_new_thread(scroll, (text,))
+    thread.start_new_thread(event_handler, ())
 
-        while True:
-            flashing_lights.start()
+    while True:
+        flashing_lights.start()
 except Exception as exception:
     print(exception)
 finally:
