@@ -60,4 +60,3 @@ class Rainbow:
 
     def stop(self):
         self.blank()
-        self.__init__()

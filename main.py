@@ -6,6 +6,8 @@ import rainbowhat as rh
 
 from rainbow import Rainbow
 
+scroll_true = True
+
 
 def days(date_one, date_two):
     date_one = datetime.strptime(date_one, "%Y-%m-%d")
@@ -15,6 +17,7 @@ def days(date_one, date_two):
 
 text = "SLEEPS UNTIL XMAS  " + str(days(datetime.today().strftime("%Y-%m-%d"), '2018-12-25'))
 rainbow_speed = 0.25
+
 
 def clear():
     # Reset everything
@@ -28,7 +31,7 @@ def clear():
 
 
 def scroll(scroll_text):
-    while True:
+    while scroll_true:
         show = ''
         for letter in scroll_text:
             show = show + letter
@@ -40,22 +43,31 @@ def scroll(scroll_text):
 
 
 def event_handler():
-    global rainbow_speed
-
     @rh.touch.A.press()
     def touch_a(channel):
+        global rainbow_speed
+
+        if rainbow_speed >= 0.25:
+            rainbow_speed = rainbow_speed - 0.25
         rh.lights.rgb(1, 0, 0)
         print(str(channel) + ' ' + str(rainbow_speed))
+        rh.lights.rgb(0, 0, 0)
 
     @rh.touch.B.press()
     def touch_b(channel):
+        global rainbow_speed
+
+        rainbow_speed = rainbow_speed + 0.25
         rh.lights.rgb(0, 1, 0)
         print(str(channel) + ' ' + str(rainbow_speed))
+        rh.lights.rgb(0, 0, 0)
 
     @rh.touch.C.press()
     def touch_c(channel):
         rh.lights.rgb(0, 0, 1)
         print(str(channel) + ' ' + str(rainbow_speed))
+        global scroll_true
+        scroll_true = False
 
 
 def temperature():
