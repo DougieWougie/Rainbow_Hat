@@ -1,12 +1,11 @@
 from datetime import datetime
+from time import sleep
+
 import thread
-import time
 
 import rainbowhat as rh
 
 from rainbow import Rainbow
-
-scroll_true = True
 
 
 def days(date_one, date_two):
@@ -15,8 +14,7 @@ def days(date_one, date_two):
     return abs((date_one - date_two).days)
 
 
-text = "SLEEPS UNTIL XMAS  " + str(days(datetime.today().strftime("%Y-%m-%d"), '2018-12-25'))
-rainbow_speed = 0.25
+text = str(days(datetime.today().strftime("%Y-%m-%d"), '2018-12-25')) + " SLEEPS UNTIL XMAS    "
 
 
 def clear():
@@ -31,43 +29,39 @@ def clear():
 
 
 def scroll(scroll_text):
-    while scroll_true:
-        show = ''
+    show = ''
+    while True:
         for letter in scroll_text:
             show = show + letter
             rh.display.clear()
             rh.display.print_str(show)
             rh.display.show()
-            time.sleep(0.25)
-        time.sleep(2)
+            sleep(0.25)
 
 
 def event_handler():
     @rh.touch.A.press()
     def touch_a(channel):
-        global rainbow_speed
-
-        if rainbow_speed >= 0.25:
-            rainbow_speed = rainbow_speed - 0.25
         rh.lights.rgb(1, 0, 0)
-        print(str(channel) + ' ' + str(rainbow_speed))
+        flashing_lights.speed_down()
+        print(str(channel) + " " + str(flashing_lights.speed))
+        sleep(0.5)
         rh.lights.rgb(0, 0, 0)
 
     @rh.touch.B.press()
     def touch_b(channel):
-        global rainbow_speed
-
-        rainbow_speed = rainbow_speed + 0.25
         rh.lights.rgb(0, 1, 0)
-        print(str(channel) + ' ' + str(rainbow_speed))
+        flashing_lights.speed_up()
+        print(str(channel) + " " + str(flashing_lights.speed))
+        sleep(0.5)
         rh.lights.rgb(0, 0, 0)
 
     @rh.touch.C.press()
     def touch_c(channel):
         rh.lights.rgb(0, 0, 1)
-        print(str(channel) + ' ' + str(rainbow_speed))
-        global scroll_true
-        scroll_true = False
+        print(str(channel))
+        sleep(0.5)
+        rh.lights.rgb(0, 0, 0)
 
 
 def temperature():
@@ -79,7 +73,7 @@ def pressure():
 
 
 try:
-    flashing_lights = Rainbow()
+    flashing_lights = Rainbow(sequence='single')
     clear()
 
     thread.start_new_thread(scroll, (text,))
