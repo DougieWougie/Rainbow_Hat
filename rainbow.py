@@ -63,8 +63,8 @@ class Rainbow:
                     rainbow.set_all(r, g, b)
                     rainbow.show()
         except Exception as exception:
-            print exception
-            print "Something went wrong instantiating the type of sequence!"
+            print(exception)
+            print('Something went wrong instantiating the type of sequence!')
 
     def speed_down(self):
         if self.speed <= DELAY_MAX:

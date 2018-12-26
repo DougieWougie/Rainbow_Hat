@@ -1,7 +1,7 @@
 from datetime import datetime
 from time import sleep
 
-import thread
+import threading
 
 import rainbowhat as rh
 
@@ -76,8 +76,10 @@ try:
     flashing_lights = Rainbow(sequence='single')
     clear()
 
-    thread.start_new_thread(scroll, (text,))
-    thread.start_new_thread(event_handler, ())
+    scroll_thread = threading.Thread(target=scroll, args=(text,))
+    scroll_thread.start()
+    event_handler_thread = threading.Thread(target=event_handler)
+    event_handler_thread.start()
 
     while True:
         flashing_lights.start()
