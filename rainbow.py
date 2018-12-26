@@ -9,18 +9,19 @@ DELAY_MIN = 0.01  # 10ms minimum delay
 
 
 class Rainbow:
-    def __init__(self, speed=0.25, colour=0, sequence='all'):
+    def __init__(self, speed=0.25, colour=0, sequence='all', brightness=0.1):
         self.speed = speed  # Default delay in seconds on each iteration
         self.colour = colour  # RGB value from 1-255, 0 is HSV cycled colour
         self.sequence = sequence  # String: random (one LED at random)
+        self.brightness = brightness  # Float between 0 and 1 - average 0.2, <0.04 is off
         self.running = True
         #         single (one LED after the other turning the last off)
         #         fill   (one LED after the other leaving the last on)
         #         all    (all LED on)
 
-    @staticmethod
-    def blank():
+    def blank(self):
         # Clears the LED and displays it cleared
+        rainbow.set_brightness(self.brightness)
         rainbow.clear()
         rainbow.show()
 
