@@ -7,4 +7,4 @@ and decorators.
 
 You only need main.py unless you're using PyCharm Professional!
 
-More details on my blog - https://midlifegeek.me/raspberry-pi-pycharm-pro
+More details on my blog - https://blog.midlifegeek.me/blog/rainbow-hat
